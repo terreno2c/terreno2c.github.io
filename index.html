@@ -6,6 +6,12 @@
     <title>Idea del Terreno</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Product+Sans:wght@400&display=swap');
+
+        /* Cargar fuente personalizada */
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('font.ttf') format('truetype');
+        }
         
         body {
             display: flex;
@@ -70,7 +76,7 @@
             text-align: center;
             font-size: 14px;
             color: rgba(255, 255, 255, 0.25);
-            font-family: 'Helvetica', sans-serif;
+            font-family: 'CustomFont', sans-serif; /* Usar la fuente personalizada */
         }
     </style>
     <script>
@@ -133,6 +139,8 @@
         <button id="enviarBtn" onclick="enviarIdea()">Envia tu idea</button>
     </div>
     <div id="notificacion" class="notification">Idea enviada con éxito</div>
-    <div class="footer">"By JuanUke"</div>
+    <div class="footer">"BY JuanUke"</div>
 </body>
 </html>
+
+
