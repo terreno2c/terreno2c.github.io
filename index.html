@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Idea del Terreno</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Product+Sans:wght@400&display=swap');
@@ -41,7 +41,11 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        button:hover:enabled {
             background: #0056b3;
         }
         .notification {
@@ -70,7 +74,11 @@
         }
     </style>
     <script>
+        let ideaEnviada = false;
+        
         function enviarIdea() {
+            if (ideaEnviada) return;
+            
             const nombre = document.getElementById("nombre").value;
             const descripcion = document.getElementById("descripcion").value;
             const autor = document.getElementById("autor").value;
@@ -94,7 +102,11 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             })
-            .then(() => mostrarNotificacion())
+            .then(() => {
+                ideaEnviada = true;
+                document.getElementById("enviarBtn").disabled = true;
+                mostrarNotificacion();
+            })
             .catch(() => alert("Error al enviar la idea"));
         }
         
@@ -105,20 +117,22 @@
                 notificacion.classList.remove("show");
             }, 3000);
         }
+        
+        function resetearEnvio() {
+            ideaEnviada = false;
+            document.getElementById("enviarBtn").disabled = false;
+        }
     </script>
 </head>
 <body>
     <div class="container">
         <h2 style="color: white;">Registra tu Idea</h2>
-        <input type="text" id="nombre" placeholder="Nombre de la Idea">
-        <textarea id="descripcion" placeholder="Descripción"></textarea>
-        <input type="text" id="autor" placeholder="Autor">
-        <button onclick="enviarIdea()">Enviar tu idea</button>
+        <input type="text" id="nombre" placeholder="Nombre de la Idea" oninput="resetearEnvio()">
+        <textarea id="descripcion" placeholder="Descripción" oninput="resetearEnvio()"></textarea>
+        <input type="text" id="autor" placeholder="Autor" oninput="resetearEnvio()">
+        <button id="enviarBtn" onclick="enviarIdea()">Envia tu idea</button>
     </div>
     <div id="notificacion" class="notification">Idea enviada con éxito</div>
-    <div class="footer">BY JuanUke</div>
+    <div class="footer">"By JuanUke"</div>
 </body>
 </html>
-
-
-
