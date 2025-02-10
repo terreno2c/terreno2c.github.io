@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idea del Terreno</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Product+Sans:wght@400&display=swap');
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://cdn.discordapp.com/attachments/1338350379334897767/1338351058988175402/Banner_PSD.png?ex=67aac40d&is=67a9728d&hm=2bd31fbabc80f29d8a1da30358f5794e05a47c1a1eab013253d9999547445931&') no-repeat center center/cover;
+            margin: 0;
+            font-family: 'Helvetica', sans-serif;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            font-family: 'Product Sans', sans-serif;
+        }
+        input, textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .notification {
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: top 0.5s ease-in-out;
+        }
+        .notification.show {
+            top: 20px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.25);
+            font-family: 'Helvetica', sans-serif;
+        }
+    </style>
+    <script>
+        function enviarIdea() {
+            const nombre = document.getElementById("nombre").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const autor = document.getElementById("autor").value;
+            
+            const webhookURL = "https://discord.com/api/webhooks/1338347228024012850/-CDuRNn5uZqWF7Se9daVKXronScmDXzt-JcxvAaJwmEXyDPM-xwdYh4onVdVaYSe0ycd";
+            
+            const payload = {
+                embeds: [{
+                    title: "Nueva Idea Registrada",
+                    color: 3447003,
+                    fields: [
+                        { name: "Nombre", value: nombre, inline: false },
+                        { name: "Descripción", value: descripcion, inline: false },
+                        { name: "Autor", value: autor, inline: false }
+                    ]
+                }]
+            };
+            
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => mostrarNotificacion())
+            .catch(() => alert("Error al enviar la idea"));
+        }
+        
+        function mostrarNotificacion() {
+            const notificacion = document.getElementById("notificacion");
+            notificacion.classList.add("show");
+            setTimeout(() => {
+                notificacion.classList.remove("show");
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color: white;">Registra tu Idea</h2>
+        <input type="text" id="nombre" placeholder="Nombre de la Idea">
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
+        <input type="text" id="autor" placeholder="Autor">
+        <button onclick="enviarIdea()">Enviar tu idea</button>
+    </div>
+    <div id="notificacion" class="notification">Idea enviada con éxito</div>
+    <div class="footer">BY JuanUke</div>
+</body>
+</html>
+
+
+
